@@ -1,0 +1,76 @@
+<?php require_once __DIR__ . '/../layouts/header.php'; ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Chanel</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-black font-sans">
+
+<div class="container mx-auto px-4 py-12 text-center">
+    <h1 class="text-7xl md:text-9xl font-black uppercase tracking-widest text-gray-900">Foundation <span>CHANEL</span></h1>
+</div>
+
+<!-- Promo Block -->
+<div class="promo-block mt-20 max-w-7xl mx-auto px-4">
+    <div class="flex flex-col md:flex-row items-center bg-gray-50">
+        <div class="promo-image md:w-1/2">
+            <img src="/Website/img/ab.webp" alt="FOUNDATION CHANEL IS COMMITTED TO WOMEN AND ADOLESCENT GIRLS" class="w-full h-full object-cover">
+        </div>
+        <div class="promo-text md:w-1/2 p-8 lg:p-16 text-left">
+            <h2 class="text-2xl lg:text-3xl font-bold uppercase tracking-wide">FOUNDATION CHANEL IS COMMITTED TO WOMEN AND ADOLESCENT GIRLS</h2>
+            <p class="mt-4 text-gray-700">Since 2011, Fondation CHANEL has worked in solidarity with its not-for-profit partners to create conditions for women and girls to be free to shape their own destiny.</p>
+            <p class="mt-4 text-gray-700">Through multi-year, specialised support, Fondation CHANEL adapts global strategies to local realities, offering tailored resources, connecting critical channels and amplifying community-led solutions.</p>
+            <a href="#" class="promo-link inline-block mt-8 bg-black text-white py-3 px-10 uppercase text-sm font-bold tracking-widest hover:bg-gray-800 transition-colors">DISCOVER</a>
+        </div>
+    </div>
+</div>
+
+<!-- Support Section -->
+<div class="support-section max-w-7xl mx-auto px-4 py-20">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+        
+        <!-- Contact an Advisor -->
+        <div class="support-box border-t-2 border-black pt-6">
+            <h4 class="text-lg font-bold uppercase tracking-wider">Contact an Advisor</h4>
+            <p class="mt-4 text-sm text-gray-600">
+                CHANEL Client Care is available Monday to Sunday, 7 AM to 12 AM ET. to answer all your questions.
+            </p>
+            <p class="mt-4 text-sm text-gray-600">
+                Please <a href="#" class="underline hover:text-gray-900">email us</a>, call <a href="#" class="underline hover:text-gray-900">1.800.550.0005</a> or live chat with a CHANEL Advisor.
+            </p>
+        </div>
+
+        <!-- Find a Store -->
+        <div class="support-box border-t-2 border-black pt-6">
+            <h4 class="text-lg font-bold uppercase tracking-wider">Find a Store</h4>
+            <p class="mt-4 text-sm text-gray-600">Enter a location to find the closest CHANEL stores</p>
+            <form method="POST" action="save_data.php" class="mt-4">
+                <div class="input-row flex">
+                    <input type="text" name="postal_code" placeholder="City or zip code" required class="flex-grow p-3 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-black">
+                    <button type="submit" name="save_postal" class="bg-black text-white px-6 font-bold text-xl hover:bg-gray-800 transition-colors">→</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Newsletter -->
+        <div class="support-box border-t-2 border-black pt-6">
+            <h4 class="text-lg font-bold uppercase tracking-wider">Newsletter</h4>
+            <p class="mt-4 text-sm text-gray-600">Subscribe to receive news from CHANEL</p>
+            <form method="POST" action="/Website/app/View/pages/save_data.php" class="mt-4">
+                <div class="input-row flex">
+                    <input type="email" name="email" placeholder="Enter your email address" required class="flex-grow p-3 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-black">
+                    <button type="submit" name="save_email" class="bg-black text-white px-6 font-bold text-xl hover:bg-gray-800 transition-colors">→</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
+<?php require_once __DIR__ . '/../layouts/footer.php'; ?>

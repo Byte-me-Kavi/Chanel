@@ -42,7 +42,7 @@
                     <div class="option-box border border-black p-5 cursor-pointer">
                         <label class="flex items-start">
                             <input type="radio" name="wrap" checked class="mt-5 mr-5 h-5 w-5 accent-black">
-                            <div class="flex-grow flex justify-between items-start">
+                            <div class="grow flex justify-between items-start">
                                 <div class="flex items-start">
                                     <img src="{{ asset('img/es.webp') }}" alt="The Essential" class="w-20 mr-5">
                                     <div>
@@ -58,7 +58,7 @@
                     <div class="option-box border border-gray-300 p-5 cursor-pointer">
                         <label class="flex items-start">
                             <input type="radio" name="wrap" class="mt-5 mr-5 h-5 w-5 accent-black">
-                            <div class="flex-grow flex justify-between items-start">
+                            <div class="grow flex justify-between items-start">
                                 <div class="flex items-start">
                                     <img src="{{ asset('img/cl.webp') }}" alt="The Classic" class="w-20 mr-5">
                                     <div>
@@ -99,7 +99,7 @@
     </div>
 
     <div class="text-center my-8">
-        <a href="{{ route('product') }}" class="inline-block px-8 py-4 text-center bg-gradient-to-r from-black to-gray-700 border-none rounded-md text-white font-bold uppercase tracking-wider text-base hover:scale-105 transition-transform">Continue Shopping</a>
+        <a href="{{ route('product') }}" class="inline-block px-8 py-4 text-center bg-linear-to-r from-black to-gray-700 border-none rounded-md text-white font-bold uppercase tracking-wider text-base hover:scale-105 transition-transform">Continue Shopping</a>
     </div>
 </div>
 

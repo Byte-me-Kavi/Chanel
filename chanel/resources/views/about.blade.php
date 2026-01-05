@@ -37,7 +37,7 @@
             <p class="mt-4 text-sm text-gray-600">Enter a location to find the closest CHANEL stores</p>
             <form class="mt-4">
                 <div class="flex">
-                    <input type="text" placeholder="City or zip code" class="flex-grow p-3 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-black">
+                    <input type="text" placeholder="City or zip code" class="grow p-3 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-black">
                     <button type="submit" class="bg-black text-white px-6 font-bold text-xl hover:bg-gray-800 transition-colors">→</button>
                 </div>
             </form>
@@ -49,7 +49,7 @@
             <p class="mt-4 text-sm text-gray-600">Subscribe to receive news from CHANEL</p>
             <form class="mt-4">
                 <div class="flex">
-                    <input type="email" placeholder="Enter your email address" class="flex-grow p-3 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-black">
+                    <input type="email" placeholder="Enter your email address" class="grow p-3 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-black">
                     <button type="submit" class="bg-black text-white px-6 font-bold text-xl hover:bg-gray-800 transition-colors">→</button>
                 </div>
             </form>

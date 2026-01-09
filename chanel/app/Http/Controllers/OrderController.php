@@ -8,9 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    /**
-     * Display user's orders (My Orders page)
-     */
+    // My Orders page
     public function index()
     {
         $orders = Order::where('user_id', Auth::id())
@@ -20,9 +18,7 @@ class OrderController extends Controller
         return view('orders.index', compact('orders'));
     }
 
-    /**
-     * Display order tracking page
-     */
+    // tracking page
     public function track($id)
     {
         $order = Order::where('id', $id)
@@ -32,9 +28,7 @@ class OrderController extends Controller
         return view('orders.track', compact('order'));
     }
 
-    /**
-     * API endpoint for order status (for AJAX polling)
-     */
+    // api for status
     public function status($id)
     {
         $order = Order::where('id', $id)

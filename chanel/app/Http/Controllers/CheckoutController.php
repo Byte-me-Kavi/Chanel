@@ -9,25 +9,23 @@ use Illuminate\Support\Facades\Auth;
 
 class CheckoutController extends Controller
 {
-    /**
-     * Display the checkout page
-     */
     public function index()
     {
-        // Admin users cannot checkout
+        // admins shouldn't be here
         if (Auth::check() && Auth::user()->role === 'admin') {
             return redirect()->route('admin.index')->with('error', 'Admin users cannot place orders.');
         }
 
         $cart = session()->get('cart', []);
         
-        if (empty($cart)) {
+        if (!$cart) {
             return redirect()->route('cart.index')->with('error', 'Your cart is empty!');
         }
 
         $subtotal = collect($cart)->sum('price');
-        $taxRate = 0.10; // 10%
-        $tax = $subtotal > 200 ? $subtotal * $taxRate : 0;
+        
+        // simple tax logic
+        $tax = $subtotal > 200 ? $subtotal * 0.10 : 0;
         $total = $subtotal + $tax;
 
         $deliveryMethods = [
@@ -40,12 +38,9 @@ class CheckoutController extends Controller
         return view('checkout', compact('cart', 'subtotal', 'tax', 'total', 'deliveryMethods'));
     }
 
-    /**
-     * Process the order
-     */
-    public function store(Request $request)
+    public function store(Request $req)
     {
-        $request->validate([
+        $req->validate([
             'delivery_method' => 'required|string',
             'privacy' => 'required|accepted',
         ]);
@@ -56,40 +51,27 @@ class CheckoutController extends Controller
             return redirect()->route('cart.index')->with('error', 'Your cart is empty!');
         }
 
-        try {
-            DB::beginTransaction();
-
-            $userId = Auth::check() ? Auth::id() : null;
-
-            foreach ($cart as $item) {
-                Order::create([
-                    'user_id' => $userId,
-                    'product_name' => $item['name'] ?? 'Unknown Product',
-                    'price' => $item['price'] ?? 0,
-                    'image' => $item['image'] ?? '',
-                    'quantity' => $item['quantity'] ?? 1,
-                    'order_status' => 'Order Placed',
-                    'status' => 'Pending',
-                    'wrapping_option' => $request->input('wrapping', 'The Essential'),
-                    'gift_message' => $request->input('gift_message', ''),
-                ]);
-            }
-
-            DB::commit();
-
-            // Clear the cart
-            session()->forget('cart');
-
-            return redirect()->route('checkout.success');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->with('error', 'Could not place order. Please try again.');
+        // Create an order for each item
+        foreach ($cart as $item) {
+            Order::create([
+                'user_id' => Auth::id(),
+                'product_name' => $item['name'] ?? 'Item',
+                'price' => $item['price'] ?? 0,
+                'image' => $item['image'] ?? '',
+                'quantity' => $item['quantity'] ?? 1,
+                'order_status' => 'Order Placed',
+                'status' => 'Pending',
+                'wrapping_option' => $req->input('wrapping', 'The Essential'),
+                'gift_message' => $req->input('gift_message', ''),
+            ]);
         }
+
+        // clear cart after success
+        session()->forget('cart');
+
+        return redirect()->route('checkout.success');
     }
 
-    /**
-     * Display order success page
-     */
     public function success()
     {
         return view('checkout-success');

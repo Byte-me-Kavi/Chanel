@@ -1,66 +1,64 @@
 @extends('layouts.frontend')
 
 @section('content')
-<!-- Hero Section -->
-<section class="relative h-[50vh] bg-cover bg-center flex items-center justify-center text-center text-white" style="background-image: url('{{ asset('img/img3.webp') }}');">
-    <div class="bg-black/30 p-8">
-        <h1 class="text-3xl md:text-4xl font-bold tracking-wider uppercase">BLEU DE CHANEL L'EXCLUSIF</h1>
-        <a href="#" class="inline-block mt-4 px-8 py-3 border border-white uppercase tracking-widest hover:bg-white hover:text-black transition-colors">Discover The New Fragrance</a>
+
+<section class="justify-center flex bg-center bg-cover items-center text-center relative h-[50vh] text-white" style="background-image: url('{{ asset('img/img3.webp') }}');">
+    <div class="p-8 bg-black/30">
+        <h1 class="font-bold text-3xl md:text-4xl uppercase tracking-wider">BLEU DE CHANEL L'EXCLUSIF</h1>
+        <a href="#" class="inline-block px-8 py-3 mt-4 border border-white uppercase tracking-widest hover:text-black hover:bg-white transition-colors">Discover The New Fragrance</a>
     </div>
 </section>
 
-<div class="container mx-auto px-4 py-12">
-    <h2 class="text-center text-xl font-semibold uppercase tracking-[0.2em] mb-8">Our Products</h2>
+<div class="px-4 py-12 mx-auto container">
+    <h2 class="mb-8 font-semibold text-center text-xl uppercase tracking-[0.2em]">Our Products</h2>
 
-    <!-- Products Grid from Database -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+    <div class="gap-6 grid grid-cols-2 md:grid-cols-4">
         @forelse($products as $product)
-        <div class="border border-gray-200 p-4 text-center shadow-sm hover:shadow-md transition-shadow">
+        <div class="p-4 text-center border border-gray-200 shadow-sm transition-shadow hover:shadow-md">
             <a href="{{ route('product.show', $product->id) }}" class="block">
-                <div class="bg-gray-100 overflow-hidden mb-3">
+                <div class="mb-3 overflow-hidden bg-gray-100">
                     <img src="{{ asset($product->image) }}" 
                          alt="{{ $product->name }}" 
-                         class="w-full h-48 object-contain hover:scale-105 transition-transform duration-300">
+                         class="object-contain w-full h-48 transition-transform duration-300 hover:scale-105">
                 </div>
-                <h3 class="font-semibold text-sm uppercase">{{ $product->name }}</h3>
-                <p class="text-xs text-gray-500 mt-1">{{ $product->description }}</p>
-                <p class="font-bold mt-2">${{ number_format($product->price, 2) }}</p>
+                <h3 class="text-sm font-semibold uppercase">{{ $product->name }}</h3>
+                <p class="mt-1 text-xs text-gray-500">{{ $product->description }}</p>
+                <p class="mt-2 font-bold">${{ number_format($product->price, 2) }}</p>
             </a>
             <form action="{{ route('cart.add') }}" method="POST" class="mt-3">
                 @csrf
                 <input type="hidden" name="product_id" value="{{ $product->id }}">
-                <button type="submit" class="px-6 py-2 border border-black hover:bg-black hover:text-white transition-colors text-sm font-semibold">Add to Bag</button>
+                <button type="submit" class="px-6 py-2 text-sm font-semibold border border-black transition-colors hover:text-white hover:bg-black">Add to Bag</button>
             </form>
         </div>
         @empty
-        <div class="col-span-4 text-center py-12 text-gray-500">
+        <div class="col-span-4 py-12 text-center text-gray-500">
             <p>No products found.</p>
         </div>
         @endforelse
     </div>
 </div>
 
-<!-- Support Section -->
-<div class="border-t border-b border-gray-200 py-12">
-    <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="py-12 border-t border-b border-gray-200">
+    <div class="grid max-w-6xl grid-cols-1 gap-8 mx-auto px-4 md:grid-cols-3">
         <div>
-            <h4 class="text-sm font-bold uppercase tracking-wider mb-4">Contact an Advisor</h4>
-            <p class="text-sm text-gray-600">CHANEL Client Care is available Monday to Sunday, 7 AM to 12 AM ET.</p>
-            <p class="text-sm text-gray-600 mt-2">Please <a href="#" class="underline">email us</a> or call <a href="#" class="underline">1.800.550.0005</a></p>
+            <h4 class="mb-4 text-sm font-bold uppercase tracking-wider">Need Help?</h4>
+            <p class="text-sm text-gray-600">CHANEL Client Care is available to assist you.</p>
+            <p class="mt-2 text-sm text-gray-600">Please <a href="#" class="underline">email us</a> or call <a href="#" class="underline">1.800.550.0005</a></p>
         </div>
         <div>
-            <h4 class="text-sm font-bold uppercase tracking-wider mb-4">Find a Store</h4>
-            <p class="text-sm text-gray-600 mb-3">Enter a location to find the closest CHANEL stores</p>
+            <h4 class="mb-4 text-sm font-bold uppercase tracking-wider">Find a Store</h4>
+            <p class="mb-3 text-sm text-gray-600">Enter a location to find the closest CHANEL stores</p>
             <div class="flex border-b border-black">
-                <input type="text" placeholder="City or zip code" class="flex-1 py-2 outline-none text-sm">
+                <input type="text" placeholder="City or zip code" class="flex-1 py-2 text-sm outline-none">
                 <button class="font-bold">GO →</button>
             </div>
         </div>
         <div>
-            <h4 class="text-sm font-bold uppercase tracking-wider mb-4">Newsletter</h4>
-            <p class="text-sm text-gray-600 mb-3">Subscribe to receive news from CHANEL</p>
+            <h4 class="mb-4 text-sm font-bold uppercase tracking-wider">Stay Updated</h4>
+            <p class="mb-3 text-sm text-gray-600">Subscribe/Newsletter</p>
             <div class="flex border-b border-black">
-                <input type="email" placeholder="Enter your email address" class="flex-1 py-2 outline-none text-sm">
+                <input type="email" placeholder="Enter your email address" class="flex-1 py-2 text-sm outline-none">
                 <button class="font-bold">OK →</button>
             </div>
         </div>

@@ -1,43 +1,43 @@
-<footer class="bg-black text-white py-16 mt-20 text-sm tracking-wide">
-    <div class="max-w-[1400px] mx-auto px-8">
-        <div class="text-center font-bold text-4xl mb-12 tracking-[0.25em]">CHANEL</div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-12 text-center md:text-left">
+<footer class="mt-20 py-16 bg-black text-sm text-white tracking-wide">
+    <div class="px-8 mx-auto max-w-[1400px]">
+        <div class="mb-12 text-4xl font-bold text-center tracking-[0.25em]">CHANEL</div>
+        <div class="gap-8 grid grid-cols-1 pb-12 text-center md:grid-cols-2 md:text-left lg:grid-cols-4">
             <div>
-                <h4 class="font-bold uppercase mb-6 text-sm">ONLINE SERVICES</h4>
+                <h4 class="mb-6 text-sm font-bold uppercase">Online Support</h4>
                 <ul class="space-y-4">
-                    <li><a href="#" class="text-gray-300 hover:text-white hover:underline transition-colors">Payment Methods</a></li>
-                    <li><a href="#" class="text-gray-300 hover:text-white hover:underline transition-colors">Shipping Options</a></li>
-                    <li><a href="#" class="text-gray-300 hover:text-white hover:underline transition-colors">My Account</a></li>
-                    <li><a href="#" class="text-gray-300 hover:text-white hover:underline transition-colors">Returns</a></li>
+                    <li><a href="#" class="text-gray-300 transition-colors hover:text-white hover:underline">Payment Methods</a></li>
+                    <li><a href="#" class="text-gray-300 transition-colors hover:text-white hover:underline">Shipping Options</a></li>
+                    <li><a href="#" class="text-gray-300 transition-colors hover:text-white hover:underline">My Account</a></li>
+                    <li><a href="#" class="text-gray-300 transition-colors hover:text-white hover:underline">Returns</a></li>
                 </ul>
             </div>
             <div>
-                <h4 class="font-bold uppercase mb-6 text-sm">BOUTIQUE SERVICES</h4>
+                <h4 class="mb-6 text-sm font-bold uppercase">In-Store Services</h4>
                 <ul class="space-y-4">
-                    <li><a href="#" class="text-gray-300 hover:text-white hover:underline transition-colors">Store Locator</a></li>
-                    <li><a href="#" class="text-gray-300 hover:text-white hover:underline transition-colors">Book an Appointment</a></li>
+                    <li><a href="#" class="text-gray-300 transition-colors hover:text-white hover:underline">Store Locator</a></li>
+                    <li><a href="#" class="text-gray-300 transition-colors hover:text-white hover:underline">Book an Appointment</a></li>
                 </ul>
             </div>
             <div>
-                <h4 class="font-bold uppercase mb-6 text-sm">THE HOUSE OF CHANEL</h4>
+                <h4 class="mb-6 text-sm font-bold uppercase">About Chanel</h4>
                 <ul class="space-y-4">
-                    <li><a href="#" class="text-gray-300 hover:text-white hover:underline transition-colors">Careers</a></li>
-                    <li><a href="#" class="text-gray-300 hover:text-white hover:underline transition-colors">Legal</a></li>
-                    <li><a href="#" class="text-gray-300 hover:text-white hover:underline transition-colors">Privacy</a></li>
+                    <li><a href="#" class="text-gray-300 transition-colors hover:text-white hover:underline">Careers</a></li>
+                    <li><a href="#" class="text-gray-300 transition-colors hover:text-white hover:underline">Legal</a></li>
+                    <li><a href="#" class="text-gray-300 transition-colors hover:text-white hover:underline">Privacy</a></li>
                 </ul>
             </div>
              <div>
-                <h4 class="font-bold uppercase mb-6 text-sm">EXPLORE</h4>
+                <h4 class="mb-6 text-sm font-bold uppercase">Products</h4>
                  <ul class="space-y-4">
-                    <li><a href="#" class="text-gray-300 hover:text-white hover:underline transition-colors">Fragrance</a></li>
-                    <li><a href="#" class="text-gray-300 hover:text-white hover:underline transition-colors">Makeup</a></li>
-                    <li><a href="#" class="text-gray-300 hover:text-white hover:underline transition-colors">Skincare</a></li>
+                    <li><a href="#" class="text-gray-300 transition-colors hover:text-white hover:underline">Fragrance</a></li>
+                    <li><a href="#" class="text-gray-300 transition-colors hover:text-white hover:underline">Makeup</a></li>
+                    <li><a href="#" class="text-gray-300 transition-colors hover:text-white hover:underline">Skincare</a></li>
                 </ul>
             </div>
         </div>
         
-        <div class="mt-8 border-t border-gray-800 pt-8">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-8">
+        <div class="pt-8 mt-8 border-t border-gray-800">
+            <div class="flex flex-col justify-between items-center gap-6 mb-8 md:flex-row">
                 <div class="flex items-center gap-3">
                     <span>Enable high contrast</span>
                     <!-- Toggle Switch -->
@@ -48,18 +48,18 @@
                 </div>
             </div>
 
-            <div class="h-px bg-gray-800 my-4"></div>
+            <div class="my-4 h-px bg-gray-800"></div>
 
-            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-                <div class="flex flex-col md:flex-row items-center gap-6 text-gray-400">
+            <div class="flex flex-col justify-between items-center gap-6 md:flex-row">
+                <div class="flex flex-col items-center gap-6 text-gray-400 md:flex-row">
                     <span>Change location and language</span>
-                    <a href="#" class="text-white font-bold flex items-center gap-2">United States - English (US) <span class="inline-block p-[3px] border-b border-r border-white rotate-45 mb-1"></span></a>
+                    <a href="#" class="flex items-center gap-2 font-bold text-white">United States - English (US) <span class="inline-block p-[3px] border-b border-r border-white rotate-45 mb-1"></span></a>
                 </div>
                 <div class="flex items-center gap-6">
-                    <a href="#" class="hover:opacity-100 opacity-70 transition-opacity"><img src="{{ asset('img/facebook.png') }}" alt="facebook" class="h-4 w-auto invert brightness-0"></a>
-                    <a href="#" class="hover:opacity-100 opacity-70 transition-opacity"><img src="{{ asset('img/instagram.png') }}" alt="instagram" class="h-4 w-auto invert brightness-0"></a>
-                    <a href="#" class="hover:opacity-100 opacity-70 transition-opacity"><img src="{{ asset('img/linkedin.png') }}" alt="linkedin" class="h-4 w-auto invert brightness-0"></a>
-                    <a href="#" class="hover:opacity-100 opacity-70 transition-opacity"><img src="{{ asset('img/youtube.png') }}" alt="youtube" class="h-4 w-auto invert brightness-0"></a>
+                    <a href="#" class="opacity-70 transition-opacity hover:opacity-100"><img src="{{ asset('img/facebook.png') }}" alt="facebook" class="w-auto h-4 brightness-0 invert"></a>
+                    <a href="#" class="opacity-70 transition-opacity hover:opacity-100"><img src="{{ asset('img/instagram.png') }}" alt="instagram" class="w-auto h-4 brightness-0 invert"></a>
+                    <a href="#" class="opacity-70 transition-opacity hover:opacity-100"><img src="{{ asset('img/linkedin.png') }}" alt="linkedin" class="w-auto h-4 brightness-0 invert"></a>
+                    <a href="#" class="opacity-70 transition-opacity hover:opacity-100"><img src="{{ asset('img/youtube.png') }}" alt="youtube" class="w-auto h-4 brightness-0 invert"></a>
                 </div>
             </div>
         </div>

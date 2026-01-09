@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class WishlistController extends Controller
 {
-    /**
-     * Display user's wishlist
-     */
     public function index()
     {
         $wishlistItems = Wishlist::where('user_id', Auth::id())
@@ -22,23 +19,20 @@ class WishlistController extends Controller
         return view('wishlist', compact('wishlistItems'));
     }
 
-    /**
-     * Add product to wishlist
-     */
-    public function add(Request $request)
+    public function add(Request $req)
     {
-        $request->validate([
+        $req->validate([
             'product_id' => 'required|exists:products,id',
         ]);
 
         $exists = Wishlist::where('user_id', Auth::id())
-            ->where('product_id', $request->product_id)
+            ->where('product_id', $req->product_id)
             ->exists();
 
         if (!$exists) {
             Wishlist::create([
                 'user_id' => Auth::id(),
-                'product_id' => $request->product_id,
+                'product_id' => $req->product_id,
             ]);
             return back()->with('success', 'Added to wishlist!');
         }
@@ -46,9 +40,6 @@ class WishlistController extends Controller
         return back()->with('info', 'Already in wishlist.');
     }
 
-    /**
-     * Remove product from wishlist
-     */
     public function remove($id)
     {
         Wishlist::where('id', $id)

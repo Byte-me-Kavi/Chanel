@@ -1,0 +1,73 @@
+Security Features in My Project
+================================
+
+This doc explains how I handled security in my Laravel project.
+
+1. Authentication
+-----------------
+I used Laravel Jetstream which comes with login, register, forgot password already built in.
+Users get sessions after logging in and it handles everything automatically.
+
+Password are hashed with bcrypt so nobody can see the actual password in database.
+
+2. User Roles
+-------------
+I added a role column to users table with values 'user' or 'admin'.
+Regular users can shop and view orders.
+Admin users can access the admin panel to manage stuff.
+
+I made a middleware (AdminMiddleware.php) that checks if user is admin before letting them access /admin routes.
+
+3. Protected Routes
+-------------------
+Some pages need you to be logged in:
+- /orders - your order history
+- /wishlist - your saved items
+- /dashboard - user dashboard
+
+Used auth:sanctum middleware for these.
+
+Admin routes are protected by my AdminMiddleware.
+
+4. CSRF Protection
+------------------
+All my forms have @csrf tag which prevents cross-site request forgery attacks.
+Laravel does this automatically, I just had to add @csrf in every form.
+
+5. Input Validation
+-------------------
+I validate user input in controllers using $request->validate().
+For example when adding product:
+- name is required
+- price must be a number
+- email must be valid email format
+
+This prevents bad data from getting into the database.
+
+6. SQL Injection Prevention
+---------------------------
+I used Eloquent ORM which automatically uses prepared statements.
+So queries like Product::where('id', $id) are safe from SQL injection.
+
+7. XSS Prevention
+-----------------
+Blade templates escape output by default using {{ }}.
+So if someone tries to inject <script> tags it won't execute.
+
+8. Password Requirements
+------------------------
+Passwords need to be at least 8 characters.
+User has to confirm password when registering.
+Used Laravel's Password::default() rule.
+
+9. Mass Assignment Protection
+-----------------------------
+All my models have $fillable array that specifies which fields can be mass assigned.
+This prevents attackers from setting fields they shouldn't (like role).
+
+10. Sessions
+------------
+Cart data is stored in sessions.
+Sessions are server-side so users can't tamper with cart prices etc.
+
+That's basically how I handled security. Most of it comes built into Laravel which is nice.

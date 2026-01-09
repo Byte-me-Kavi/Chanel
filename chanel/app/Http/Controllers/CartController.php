@@ -7,9 +7,7 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    /**
-     * Display the shopping cart
-     */
+    // show cart
     public function index()
     {
         $cart = session()->get('cart', []);
@@ -18,24 +16,22 @@ class CartController extends Controller
         return view('cart', compact('cart', 'total'));
     }
 
-    /**
-     * Add a product to cart
-     */
-    public function add(Request $request)
+    // add item
+    public function add(Request $req)
     {
-        $request->validate([
+        $req->validate([
             'product_id' => 'required|exists:products,id',
         ]);
 
-        $product = Product::findOrFail($request->product_id);
+        $prod = Product::findOrFail($req->product_id);
         
         $cart = session()->get('cart', []);
         
         $cart[] = [
-            'id' => $product->id,
-            'name' => $product->name,
-            'price' => $product->price,
-            'image' => $product->image,
+            'id' => $prod->id,
+            'name' => $prod->name,
+            'price' => $prod->price,
+            'image' => $prod->image,
         ];
         
         session()->put('cart', $cart);
@@ -43,29 +39,22 @@ class CartController extends Controller
         return redirect()->route('cart.index')->with('success', 'Product added to bag!');
     }
 
-    /**
-     * Remove an item from cart
-     */
     public function remove($index)
     {
         $cart = session()->get('cart', []);
         
         if (isset($cart[$index])) {
             unset($cart[$index]);
-            $cart = array_values($cart); // Reindex array
+            $cart = array_values($cart); // fix keys
             session()->put('cart', $cart);
         }
         
         return redirect()->route('cart.index')->with('success', 'Item removed from bag.');
     }
 
-    /**
-     * Clear the entire cart
-     */
     public function clear()
     {
         session()->forget('cart');
-        
         return redirect()->route('cart.index')->with('success', 'Cart cleared.');
     }
 }

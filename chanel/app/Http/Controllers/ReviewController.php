@@ -8,28 +8,24 @@ use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
-    /**
-     * Store a new review
-     */
-    public function store(Request $request, $productId)
+    public function store(Request $req, $pId)
     {
-        $request->validate([
+        $req->validate([
             'author_name' => 'required|string|max:100',
             'rating' => 'required|integer|min:1|max:5',
             'review_text' => 'required|string',
         ]);
 
-        // Verify product exists
-        Product::findOrFail($productId);
+        Product::findOrFail($pId);
 
         Review::create([
-            'product_id' => $productId,
-            'author_name' => $request->author_name,
-            'rating' => $request->rating,
-            'review_text' => $request->review_text,
+            'product_id' => $pId,
+            'author_name' => $req->author_name,
+            'rating' => $req->rating,
+            'review_text' => $req->review_text,
         ]);
 
-        return redirect()->route('product.show', $productId)
+        return redirect()->route('product.show', $pId)
             ->with('review_success', 'Thank you! Your review has been submitted.');
     }
 }

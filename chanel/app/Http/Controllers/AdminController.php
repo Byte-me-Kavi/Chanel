@@ -11,32 +11,38 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    /**
-     * Display admin dashboard with tab support
-     */
-    public function index(Request $request)
+    // Main dashboard view
+    public function index(Request $req)
     {
-        $tab = $request->get('tab', 'deliveries');
-        $statusFilter = $request->get('status', 'All');
+        // default tab is deliveries
+        $currentTab = $req->get('tab', 'deliveries'); 
+        $status = $req->get('status', 'All');
 
         $deliveries = Delivery::orderBy('created_at', 'desc')->get();
         $products = Product::all();
         $users = User::all();
         $orders = Order::orderBy('created_at', 'desc')->get();
 
-        // Filter deliveries by status if needed
-        if ($statusFilter !== 'All') {
-            $deliveries = Delivery::where('status', $statusFilter)->orderBy('created_at', 'desc')->get();
+        // if we need to filter by status
+        if ($status !== 'All') {
+            $deliveries = Delivery::where('status', $status)->orderBy('created_at', 'desc')->get();
         }
 
-        return view('admin.dashboard', compact('tab', 'deliveries', 'products', 'users', 'orders', 'statusFilter'));
+        return view('admin.dashboard', [
+            'tab' => $currentTab,
+            'deliveries' => $deliveries,
+            'products' => $products,
+            'users' => $users,
+            'orders' => $orders,
+            'statusFilter' => $status
+        ]);
     }
 
-    // ===== DELIVERY CRUD =====
+    // Delivery functions
     
-    public function storeDelivery(Request $request)
+    public function storeDelivery(Request $req)
     {
-        $request->validate([
+        $req->validate([
             'customer_name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'product' => 'required|string|max:255',
@@ -46,22 +52,22 @@ class AdminController extends Controller
 
         Delivery::create([
             'order_number' => 'ORD-' . strtoupper(uniqid()),
-            'customer_name' => $request->customer_name,
-            'address' => $request->address,
-            'product' => $request->product,
-            'item_name' => $request->product,
-            'quantity' => $request->quantity,
-            'status' => $request->status,
+            'customer_name' => $req->customer_name,
+            'address' => $req->address,
+            'product' => $req->product,
+            'item_name' => $req->product, // just copying product name here
+            'quantity' => $req->quantity,
+            'status' => $req->status,
         ]);
 
         return redirect()->route('admin.index', ['tab' => 'deliveries'])->with('success', 'Delivery added successfully.');
     }
 
-    public function updateDelivery(Request $request, $id)
+    public function updateDelivery(Request $req, $id)
     {
-        $delivery = Delivery::findOrFail($id);
+        $item = Delivery::findOrFail($id);
         
-        $request->validate([
+        $req->validate([
             'customer_name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'product' => 'required|string|max:255',
@@ -69,63 +75,66 @@ class AdminController extends Controller
             'status' => 'required|string',
         ]);
 
-        $delivery->update($request->only(['customer_name', 'address', 'product', 'quantity', 'status']));
+        $item->update($req->only(['customer_name', 'address', 'product', 'quantity', 'status']));
 
         return redirect()->route('admin.index', ['tab' => 'deliveries'])->with('success', 'Delivery updated successfully.');
     }
 
     public function deleteDelivery($id)
     {
-        Delivery::findOrFail($id)->delete();
+        $d = Delivery::findOrFail($id);
+        $d->delete();
         return redirect()->route('admin.index', ['tab' => 'deliveries'])->with('success', 'Delivery deleted successfully.');
     }
 
-    // ===== PRODUCT CRUD =====
+    // Product management
     
-    public function storeProduct(Request $request)
+    public function storeProduct(Request $req)
     {
-        $request->validate([
+        $req->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'description' => 'nullable|string',
         ]);
 
-        $imagePath = '';
-        if ($request->hasFile('image')) {
-            $imagePath = 'uploads/' . $request->file('image')->getClientOriginalName();
-            $request->file('image')->move(public_path('uploads'), $request->file('image')->getClientOriginalName());
+        $img = '';
+        if ($req->hasFile('image')) {
+            $file = $req->file('image');
+            $img = 'uploads/' . $file->getClientOriginalName();
+            $file->move(public_path('uploads'), $file->getClientOriginalName());
         }
 
         Product::create([
-            'name' => $request->name,
-            'price' => $request->price,
-            'description' => $request->description ?? '',
-            'image' => $imagePath,
+            'name' => $req->name,
+            'price' => $req->price,
+            'description' => $req->description ?? '',
+            'image' => $img,
             'image_url' => '',
         ]);
 
         return redirect()->route('admin.index', ['tab' => 'products'])->with('success', 'Product added successfully.');
     }
 
-    public function updateProduct(Request $request, $id)
+    public function updateProduct(Request $req, $id)
     {
-        $product = Product::findOrFail($id);
+        $prod = Product::findOrFail($id);
         
-        $request->validate([
+        $req->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'description' => 'nullable|string',
         ]);
 
-        $data = $request->only(['name', 'price', 'description']);
+        $data = $req->only(['name', 'price', 'description']);
         
-        if ($request->hasFile('image')) {
-            $imagePath = 'uploads/' . $request->file('image')->getClientOriginalName();
-            $request->file('image')->move(public_path('uploads'), $request->file('image')->getClientOriginalName());
-            $data['image'] = $imagePath;
+        if ($req->hasFile('image')) {
+            $f = $req->file('image');
+            $path = 'uploads/' . $f->getClientOriginalName();
+            $f->move(public_path('uploads'), $f->getClientOriginalName());
+            $data['image'] = $path;
         }
 
-        $product->update($data);
+        $prod->update($data);
 
         return redirect()->route('admin.index', ['tab' => 'products'])->with('success', 'Product updated successfully.');
     }
@@ -136,43 +145,43 @@ class AdminController extends Controller
         return redirect()->route('admin.index', ['tab' => 'products'])->with('success', 'Product deleted successfully.');
     }
 
-    // ===== USER CRUD =====
+    // Users
     
-    public function storeUser(Request $request)
+    public function storeUser(Request $req)
     {
-        $request->validate([
+        $req->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6',
         ]);
 
         User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'username' => $request->name,
+            'name' => $req->name,
+            'email' => $req->email,
+            'password' => Hash::make($req->password),
+            'username' => $req->name,
             'is_active' => 1,
         ]);
 
         return redirect()->route('admin.index', ['tab' => 'users'])->with('success', 'User added successfully.');
     }
 
-    public function updateUser(Request $request, $id)
+    public function updateUser(Request $req, $id)
     {
-        $user = User::findOrFail($id);
+        $u = User::findOrFail($id);
         
-        $request->validate([
+        $req->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $id,
         ]);
 
-        $data = $request->only(['name', 'email']);
+        $data = $req->only(['name', 'email']);
         
-        if ($request->filled('password')) {
-            $data['password'] = Hash::make($request->password);
+        if ($req->filled('password')) {
+            $data['password'] = Hash::make($req->password);
         }
 
-        $user->update($data);
+        $u->update($data);
 
         return redirect()->route('admin.index', ['tab' => 'users'])->with('success', 'User updated successfully.');
     }

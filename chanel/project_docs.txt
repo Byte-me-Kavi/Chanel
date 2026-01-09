@@ -1,0 +1,75 @@
+CHANEL E-Commerce Project
+==========================
+
+This is my Laravel project for the e-commerce assignment. It's a shopping website for luxury products.
+
+Tech Used:
+- Laravel 12
+- MySQL database  
+- Tailwind CSS for styling
+- Jetstream for login/register
+
+Main Features:
+1. User can register and login
+2. Browse products and view details
+3. Add products to cart
+4. Checkout and place orders
+5. Track order status
+6. Add items to wishlist
+7. Leave reviews on products
+8. Admin can manage products, users, deliveries
+
+Database Tables:
+- users - stores user accounts (name, email, password, role)
+- products - product info (name, price, description, image)
+- orders - customer orders
+- reviews - product reviews from users
+- wishlists - saved items
+- deliveries - for admin to track shipments
+
+Controllers:
+- HomeController - homepage
+- ProductController - product listing and details
+- CartController - add/remove from cart
+- CheckoutController - process orders
+- OrderController - view my orders
+- WishlistController - manage wishlist
+- AdminController - admin dashboard stuff
+- ReviewController - submit reviews
+
+Routes:
+- / - homepage
+- /product - all products
+- /product/123 - single product
+- /cart - shopping cart
+- /checkout - checkout page
+- /orders - my orders (need login)
+- /wishlist - my wishlist (need login)
+- /admin - admin panel (admin only)
+
+Admin Login:
+Email: admin@chanel.com
+Password: admin123
+
+How to Run:
+1. Clone the project
+2. Run composer install
+3. Copy .env.example to .env
+4. Set up database in .env
+5. Run php artisan migrate
+6. Run npm install && npm run dev
+7. Run php artisan serve
+8. Open localhost:8000
+
+Folder Structure:
+- app/Http/Controllers = all controllers
+- app/Models = database models
+- resources/views = blade templates
+- routes/web.php = all routes
+- public = css, js, images
+
+Notes:
+- Cart uses sessions so it works without login
+- Orders need user to be logged in
+- Admin users can't buy products (blocked in checkout)
+- Used Jetstream for auth so didn't have to code login from scratch

@@ -6,19 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Delivery extends Model
 {
-    /**
-     * The table associated with the model.
-     */
     protected $table = 'deliveries';
 
-    /**
-     * Indicates if the model should be timestamped.
-     */
+    // handled manually
     public $timestamps = false;
 
-    /**
-     * The attributes that are mass assignable.
-     */
     protected $fillable = [
         'order_number',
         'item_name',
@@ -32,9 +24,6 @@ class Delivery extends Model
         'quantity',
     ];
 
-    /**
-     * The attributes that should be cast.
-     */
     protected $casts = [
         'quantity' => 'integer',
         'created_at' => 'datetime',

@@ -7,9 +7,6 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminAuthController extends Controller
 {
-    /**
-     * Show admin login form
-     */
     public function showLoginForm()
     {
         if (Auth::check() && Auth::user()->role === 'admin') {
@@ -18,19 +15,16 @@ class AdminAuthController extends Controller
         return view('admin.login');
     }
 
-    /**
-     * Handle admin login
-     */
-    public function login(Request $request)
+    public function login(Request $req)
     {
-        $credentials = $request->validate([
+        $creds = $req->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($creds)) {
             if (Auth::user()->role === 'admin') {
-                $request->session()->regenerate();
+                $req->session()->regenerate();
                 return redirect()->route('admin.index');
             } else {
                 Auth::logout();
@@ -41,14 +35,11 @@ class AdminAuthController extends Controller
         return back()->with('error', 'Invalid credentials.');
     }
 
-    /**
-     * Handle admin logout
-     */
-    public function logout(Request $request)
+    public function logout(Request $req)
     {
         Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        $req->session()->invalidate();
+        $req->session()->regenerateToken();
         return redirect()->route('admin.login');
     }
 }

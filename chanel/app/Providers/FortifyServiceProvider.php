@@ -17,9 +17,7 @@ use Laravel\Fortify\Contracts\LoginResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
+    // register services
     public function register(): void
     {
         // Custom login response - redirect admin to admin dashboard
@@ -37,9 +35,7 @@ class FortifyServiceProvider extends ServiceProvider
         });
     }
 
-    /**
-     * Bootstrap any application services.
-     */
+    // boot services
     public function boot(): void
     {
         Fortify::createUsersUsing(CreateNewUser::class);

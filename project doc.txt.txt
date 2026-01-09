@@ -1,7 +1,4 @@
-CHANEL E-Commerce Project
-==========================
-
-This is my Laravel project for the e-commerce assignment. It's a shopping website for luxury products.
+CHANEL E-Commerce Project Assignment
 
 Tech Used:
 - Laravel 12
@@ -53,13 +50,11 @@ Password: admin123
 
 How to Run:
 1. Clone the project
-2. Run composer install
-3. Copy .env.example to .env
-4. Set up database in .env
-5. Run php artisan migrate
-6. Run npm install && npm run dev
-7. Run php artisan serve
-8. Open localhost:8000
+2. Set up database in .env
+3. Run php artisan migrate
+4. Run npm install && npm run dev
+5. Run php artisan serve
+6. Open localhost:8000
 
 Folder Structure:
 - app/Http/Controllers = all controllers

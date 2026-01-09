@@ -6,12 +6,9 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+    //run the migration
     public function up(): void
     {
-        // Skip users table if it already exists (legacy database)
         if (!Schema::hasTable('users')) {
             Schema::create('users', function (Blueprint $table) {
                 $table->id();
@@ -46,9 +43,7 @@ return new class extends Migration
         }
     }
 
-    /**
-     * Reverse the migrations.
-     */
+    //reverse the migration
     public function down(): void
     {
         Schema::dropIfExists('users');

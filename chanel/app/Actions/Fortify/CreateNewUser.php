@@ -16,15 +16,16 @@ class CreateNewUser implements CreatesNewUsers
     public function create(array $input): User
     {
         Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
 
+        // Use the part before @ in email as the name
+        $name = explode('@', $input['email'])[0];
+
         return User::create([
-            'name' => $input['name'],
-            'username' => $input['name'], // use name as username
+            'name' => $name,
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
             'is_active' => 1, // Mark as active by default

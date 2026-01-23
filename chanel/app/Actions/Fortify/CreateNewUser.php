@@ -26,7 +26,6 @@ class CreateNewUser implements CreatesNewUsers
 
         return User::create([
             'name' => $name,
-            'username' => $name,
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
             'is_active' => 1, // Mark as active by default

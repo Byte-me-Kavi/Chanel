@@ -61,7 +61,7 @@ class CheckoutController extends Controller
                 'quantity' => $item['quantity'] ?? 1,
                 'order_status' => 'Order Placed',
                 'status' => 'Pending',
-                'wrapping_option' => $req->input('wrapping', 'The Essential'),
+                'wrapping_option' => $req->has('wrapping') ? 1 : 0,
                 'gift_message' => $req->input('gift_message', ''),
             ]);
         }

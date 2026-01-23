@@ -21,11 +21,12 @@ class CreateNewUser implements CreatesNewUsers
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
 
-        // Use the part before @ in email as the name
+        // Extract name from email (part before @)
         $name = explode('@', $input['email'])[0];
 
         return User::create([
             'name' => $name,
+            'username' => $name,
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
             'is_active' => 1, // Mark as active by default

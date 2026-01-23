@@ -56,6 +56,9 @@ class AdminController extends Controller
             'address' => $req->address,
             'product' => $req->product,
             'item_name' => $req->product, // just copying product name here
+            'item_category' => $req->item_category ?? 'General',
+            'delivery_code' => 'DEL-' . strtoupper(uniqid()),
+            'courier_id' => '',
             'quantity' => $req->quantity,
             'status' => $req->status,
         ]);

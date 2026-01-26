@@ -9,21 +9,19 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
-        return view('product', compact('products'));
+        // Data will be fetched via API in the view
+        return view('product');
     }
 
     public function exclusives()
     {
-        $products = Product::all();
-        return view('exclusives', compact('products'));
+        // Data via API
+        return view('exclusives');
     }
 
     public function show($id)
     {
-        $product = Product::findOrFail($id);
-        $relatedProducts = Product::where('id', '!=', $id)->take(4)->get();
-        
-        return view('product-details', compact('product', 'relatedProducts'));
+        // Data fetched via API in view
+        return view('product-details', ['id' => $id]);
     }
 }

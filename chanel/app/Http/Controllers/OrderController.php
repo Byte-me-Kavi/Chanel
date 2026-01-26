@@ -11,21 +11,15 @@ class OrderController extends Controller
     // My Orders page
     public function index()
     {
-        $orders = Order::where('user_id', Auth::id())
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        return view('orders.index', compact('orders'));
+        // Data fetched via API
+        return view('orders.index');
     }
 
     // tracking page
     public function track($id)
     {
-        $order = Order::where('id', $id)
-            ->where('user_id', Auth::id())
-            ->firstOrFail();
-
-        return view('orders.track', compact('order'));
+        // Data fetched via API
+        return view('orders.track', ['id' => $id]);
     }
 
     // api for status

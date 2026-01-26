@@ -11,12 +11,8 @@ class WishlistController extends Controller
 {
     public function index()
     {
-        $wishlistItems = Wishlist::where('user_id', Auth::id())
-            ->with('product')
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        return view('wishlist', compact('wishlistItems'));
+        // Data fetched via API
+        return view('wishlist');
     }
 
     public function add(Request $req)

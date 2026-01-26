@@ -10,10 +10,8 @@ class CartController extends Controller
     // show cart
     public function index()
     {
-        $cart = session()->get('cart', []);
-        $total = collect($cart)->sum('price');
-        
-        return view('cart', compact('cart', 'total'));
+        // Cart managed by JS/LocalStorage
+        return view('cart');
     }
 
     // add item

@@ -12,31 +12,55 @@
 <div class="px-4 py-12 mx-auto container">
     <h2 class="mb-8 font-semibold text-center text-xl uppercase tracking-[0.2em]">Our Products</h2>
 
-    <div class="gap-6 grid grid-cols-2 md:grid-cols-4">
-        @forelse($products as $product)
-        <div class="p-4 text-center border border-gray-200 shadow-sm transition-shadow hover:shadow-md">
-            <a href="{{ route('product.show', $product->id) }}" class="block">
-                <div class="mb-3 overflow-hidden bg-gray-100">
-                    <img src="{{ asset($product->image) }}" 
-                         alt="{{ $product->name }}" 
-                         class="object-contain w-full h-48 transition-transform duration-300 hover:scale-105">
-                </div>
-                <h3 class="text-sm font-semibold uppercase">{{ $product->name }}</h3>
-                <p class="mt-1 text-xs text-gray-500">{{ $product->description }}</p>
-                <p class="mt-2 font-bold">${{ number_format($product->price, 2) }}</p>
-            </a>
-            <form action="{{ route('cart.add') }}" method="POST" class="mt-3">
-                @csrf
-                <input type="hidden" name="product_id" value="{{ $product->id }}">
-                <button type="submit" class="px-6 py-2 text-sm font-semibold border border-black transition-colors hover:text-white hover:bg-black">Add to Bag</button>
-            </form>
-        </div>
-        @empty
-        <div class="col-span-4 py-12 text-center text-gray-500">
-            <p>No products found.</p>
-        </div>
-        @endforelse
+    <div id="product-list" class="gap-6 grid grid-cols-2 md:grid-cols-4 min-h-[200px]">
+        <!-- Loading State -->
+        <p id="loading-text" class="col-span-4 text-center text-gray-500 py-12">Loading products...</p>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/api/products')
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById('product-list');
+                    container.innerHTML = ''; // Clear loading text
+
+                    if (data.success && data.data.length > 0) {
+                        data.data.forEach(product => {
+                            const productHtml = `
+                                <div class="p-4 text-center border border-gray-200 shadow-sm transition-shadow hover:shadow-md">
+                                    <a href="/product/${product.id}" class="block">
+                                        <div class="mb-3 overflow-hidden bg-gray-100">
+                                            <img src="${product.image}" 
+                                                 alt="${product.name}" 
+                                                 class="object-contain w-full h-48 transition-transform duration-300 hover:scale-105">
+                                        </div>
+                                        <h3 class="text-sm font-semibold uppercase">${product.name}</h3>
+                                        <p class="mt-1 text-xs text-gray-500">${product.description || ''}</p>
+                                        <p class="mt-2 font-bold">$${parseFloat(product.price).toFixed(2)}</p>
+                                    </a>
+                                    <button onclick="addToCart(${product.id}, '${product.name.replace(/'/g, "\\'")}', ${product.price}, '${product.image}')" class="mt-3 block w-full px-6 py-2 text-sm font-semibold border border-black transition-colors hover:text-white hover:bg-black">Add to Bag</button>
+                                </div>
+                            `;
+                            container.insertAdjacentHTML('beforeend', productHtml);
+                        });
+                    } else {
+                        container.innerHTML = '<div class="col-span-4 py-12 text-center text-gray-500"><p>No products found.</p></div>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching products:', error);
+                    document.getElementById('product-list').innerHTML = '<div class="col-span-4 py-12 text-center text-red-500"><p>Error loading products.</p></div>';
+                });
+        });
+
+        function addToCart(id, name, price, image) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.push({ id, name, price, image, quantity: 1 });
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert('Added to bag!');
+        }
+    </script>
 </div>
 
 <div class="py-12 border-t border-b border-gray-200">

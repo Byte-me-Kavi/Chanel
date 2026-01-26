@@ -10,14 +10,7 @@ class SearchController extends Controller
     public function index(Request $req)
     {
         $q = $req->get('q', '');
-        $products = collect();
-
-        if (!empty($q)) {
-            $products = Product::where('name', 'LIKE', "%{$q}%")
-                ->orWhere('description', 'LIKE', "%{$q}%")
-                ->get();
-        }
-
-        return view('search', ['products' => $products, 'query' => $q]);
+        // Logic moved to client-side
+        return view('search', ['query' => $q]);
     }
 }

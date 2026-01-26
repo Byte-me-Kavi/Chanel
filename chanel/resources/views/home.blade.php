@@ -12,83 +12,55 @@
     <section>
         <h2 class="my-16 text-2xl font-semibold text-center uppercase tracking-[0.2em]">Top Fragrances</h2>
 
-        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div id="home-loading" class="text-center py-12 text-gray-500">Loading top fragrances...</div>
 
-            <div class="group text-center">
-                <a href="#" class="block overflow-hidden bg-[#f5f5f5]">
-                    <div class="overflow-hidden">
-                        <img src="{{ asset('img/Blue de chanel.webp') }}" alt="Bleu de Chanel" class="block w-full h-auto transition-transform duration-500 group-hover:scale-105">
-                    </div>
-                </a>
-                <h3 class="mt-4 text-base font-semibold uppercase">Bleu de Chanel</h3>
-                <p class="mt-1 text-sm text-gray-500">Eau de Parfum</p>
-                <p class="mt-2 font-bold">$165.00</p>
-                <button class="px-6 py-2.5 mt-4 text-xs font-semibold tracking-wider text-black bg-white uppercase transition-colors duration-300 border border-black cursor-pointer inline-block hover:text-white hover:bg-black">Add to Bag</button>
-            </div>
-
-            <div class="text-center group">
-                <a href="#" class="block overflow-hidden bg-[#f5f5f5]">
-                    <div class="overflow-hidden">
-                        <img src="{{ asset('img/chance eau tendre.webp') }}" alt="Chance Eau Tendre" class="block w-full h-auto transition-transform duration-500 group-hover:scale-105">
-                    </div>
-                </a>
-                <h3 class="mt-4 text-base font-semibold uppercase">Chance Eau Tendre</h3>
-                <p class="mt-1 text-sm text-gray-500">Eau de Toilette</p>
-                <p class="mt-2 font-bold">$150.00</p>
-                <button class="px-6 py-2.5 mt-4 text-xs font-semibold tracking-wider text-black bg-white uppercase transition-colors duration-300 border border-black cursor-pointer inline-block hover:text-white hover:bg-black">Add to Bag</button>
-            </div>
-
-            <div class="text-center group">
-                <a href="#" class="block overflow-hidden bg-[#f5f5f5]">
-                    <div class="overflow-hidden">
-                        <img src="{{ asset('img/coco noir.webp') }}" alt="Coco Noir" class="block w-full h-auto transition-transform duration-500 group-hover:scale-105">
-                    </div>
-                </a>
-                <h3 class="mt-4 text-base font-semibold uppercase">Coco Noir</h3>
-                <p class="mt-1 text-sm text-gray-500">Eau de Parfum</p>
-                <p class="mt-2 font-bold">$175.00</p>
-                <button class="px-6 py-2.5 mt-4 text-xs font-semibold tracking-wider text-black bg-white uppercase transition-colors duration-300 border border-black cursor-pointer inline-block hover:text-white hover:bg-black">Add to Bag</button>
-            </div>
-
-            <div class="text-center group">
-                <a href="#" class="block overflow-hidden bg-[#f5f5f5]">
-                    <div class="overflow-hidden">
-                        <img src="{{ asset('img/n05.webp') }}" alt="N°5" class="block w-full h-auto transition-transform duration-500 group-hover:scale-105">
-                    </div>
-                </a>
-                <h3 class="mt-4 text-base font-semibold uppercase">N°5</h3>
-                <p class="mt-1 text-sm text-gray-500">Eau de Parfum</p>
-                <p class="mt-2 font-bold">$180.00</p>
-                <button class="px-6 py-2.5 mt-4 text-xs font-semibold tracking-wider text-black bg-white uppercase transition-colors duration-300 border border-black cursor-pointer inline-block hover:text-white hover:bg-black">Add to Bag</button>
-            </div>
-
-            <div class="text-center group">
-                <a href="#" class="block overflow-hidden bg-[#f5f5f5]">
-                    <div class="overflow-hidden">
-                        <img src="{{ asset('img/coco manem.webp') }}" alt="COCO MADEMOISELLE" class="block w-full h-auto transition-transform duration-500 group-hover:scale-105">
-                    </div>
-                </a>
-                <h3 class="mt-4 text-base font-semibold uppercase">Coco Mademoiselle</h3>
-                <p class="mt-1 text-sm text-gray-500">Eau de Parfum</p>
-                <p class="mt-2 font-bold">$180.00</p>
-                <button class="px-6 py-2.5 mt-4 text-xs font-semibold tracking-wider text-black bg-white uppercase transition-colors duration-300 border border-black cursor-pointer inline-block hover:text-white hover:bg-black">Add to Bag</button>
-            </div>
-
-            <div class="text-center group">
-                <a href="#" class="block overflow-hidden bg-[#f5f5f5]">
-                    <div class="overflow-hidden">
-                        <img src="{{ asset('img/gabrielle chanel.webp') }}" alt="Gabrielle Chanel" class="block w-full h-auto transition-transform duration-500 group-hover:scale-105">
-                    </div>
-                </a>
-                <h3 class="mt-4 text-base font-semibold uppercase">Gabrielle Chanel</h3>
-                <p class="mt-1 text-sm text-gray-500">Eau de Parfum</p>
-                <p class="mt-2 font-bold">$180.00</p>
-                <button class="px-6 py-2.5 mt-4 text-xs font-semibold tracking-wider text-black bg-white uppercase transition-colors duration-300 border border-black cursor-pointer inline-block hover:text-white hover:bg-black">Add to Bag</button>
-            </div>
-            
-
+        <div id="home-grid" class="grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 hidden">
+            <!-- Injected -->
         </div>
     </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fetch random 4 products or just standard products
+            fetch('/api/products')
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('home-loading').classList.add('hidden');
+                    
+                    if (data.success && data.data.length > 0) {
+                        const grid = document.getElementById('home-grid');
+                        grid.classList.remove('hidden');
+                        grid.classList.add('grid');
+                        
+                        // Take first 4
+                        data.data.slice(0, 4).forEach(product => {
+                             const html = `
+                                <div class="group text-center">
+                                    <a href="/product/${product.id}" class="block overflow-hidden bg-[#f5f5f5]">
+                                        <div class="overflow-hidden">
+                                            <img src="${product.image}" alt="${product.name}" class="block w-full h-auto transition-transform duration-500 group-hover:scale-105">
+                                        </div>
+                                    </a>
+                                    <h3 class="mt-4 text-base font-semibold uppercase">${product.name}</h3>
+                                    <p class="mt-1 text-sm text-gray-500">${product.description ? product.description.substring(0, 20) : 'Eau de Parfum'}</p>
+                                    <p class="mt-2 font-bold">$${parseFloat(product.price).toFixed(2)}</p>
+                                    <button onclick="addToCart(${product.id}, '${product.name.replace(/'/g, "\\'")}', ${product.price}, '${product.image}')" class="px-6 py-2.5 mt-4 text-xs font-semibold tracking-wider text-black bg-white uppercase transition-colors duration-300 border border-black cursor-pointer inline-block hover:text-white hover:bg-black">Add to Bag</button>
+                                </div>
+                            `;
+                            grid.insertAdjacentHTML('beforeend', html);
+                        });
+                    }
+                })
+                .catch(err => console.error(err));
+        });
+
+        function addToCart(id, name, price, image) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.push({ id, name, price, image, quantity: 1 });
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert('Added to bag!');
+        }
+    </script>
 
 
     <div class="flex flex-col flex-wrap items-center gap-8 mx-auto mt-24 mb-24 md:flex-row-reverse max-w-[1000px]">

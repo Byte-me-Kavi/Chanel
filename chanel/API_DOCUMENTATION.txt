@@ -1,0 +1,171 @@
+# Chanel API Documentation for Postman
+
+## 1. Authentication Setup (Sanctum)
+
+### Option 1: API Token
+**Generate a Token**
+Since there is no public `/api/login` endpoint, use `tinker`:
+
+1.  Run `php artisan tinker`
+2.  Inside the tinker shell run:
+    ```php
+    $user = App\Models\User::first();
+    echo $user->createToken('Postman')->plainTextToken;
+    ```
+3.  Copy the token.
+
+**In Postman:**
+1.  Go to **Authorization** tab.
+2.  Type: **Bearer Token**.
+3.  Paste the token into the **Token** field.
+4.  Go to **Headers** tab and add:
+    *   `Accept`: `application/json`
+
+### Option 2: Cookie Authentication
+1.  **Disable SSL Verification**: Postman Settings -> General -> Turn **OFF** SSL certificate verification.
+2.  **Get CSRF Cookie**:
+    *   Make a `GET` request to `http://127.0.0.1:8000/sanctum/csrf-cookie`.
+3.  **Login**:
+    *   Make a `POST` request to `http://127.0.0.1:8000/login`
+    *   **Body** (x-www-form-urlencoded or raw JSON):
+        *   `email`: `email@gmail.com`
+        *   `password`: `your-password`
+4.  **Test**: Subsequent requests will use the saved cookies. Ensure you add header `Accept: application/json`.
+
+---
+
+## 2. Public Endpoints (No Auth)
+
+### I. Get All Products
+- **Method**: `GET`
+- **URL**: `http://127.0.0.1:8000/api/products`
+- **Params**:
+    - `search` (Optional): String (e.g., `?search=chanel`)
+    - Example: `http://127.0.0.1:8000/api/products?search=chanel`
+
+### II. Get Single Product
+- **Method**: `GET`
+- **URL**: `http://127.0.0.1:8000/api/products/{id}`
+- **Example**: `http://127.0.0.1:8000/api/products/1`
+
+### III. Get Product Reviews
+- **Method**: `GET`
+- **URL**: `http://127.0.0.1:8000/api/products/{id}/reviews`
+- **Example**: `http://127.0.0.1:8000/api/products/1/reviews`
+
+### IV. Submit Review
+- **Method**: `POST`
+- **URL**: `http://127.0.0.1:8000/api/products/{id}/reviews`
+- **Headers**: `Content-Type: application/json`
+- **Body** (JSON):
+    ```json
+    {
+        "author_name": "kavisha",
+        "rating": 5,
+        "review_text": "Excellent perfume"
+    }
+    ```
+
+---
+
+## 3. Authenticated Endpoints (Requires Auth)
+
+### I. Get Current User
+- **Method**: `GET`
+- **URL**: `http://127.0.0.1:8000/api/user`
+
+### II. View Wishlist
+- **Method**: `GET`
+- **URL**: `http://127.0.0.1:8000/api/wishlist`
+
+### III. Add to Wishlist
+- **Method**: `POST`
+- **URL**: `http://127.0.0.1:8000/api/wishlist`
+- **Body** (JSON):
+    ```json
+    {
+        "product_id": 1
+    }
+    ```
+
+### IV. Remove from Wishlist
+- **Method**: `DELETE`
+- **URL**: `http://127.0.0.1:8000/api/wishlist/{id}`
+
+### V. Place Order (Checkout)
+- **Method**: `POST`
+- **URL**: `http://127.0.0.1:8000/api/checkout`
+- **Body** (JSON):
+    ```json
+    {
+        "items": [
+            {
+                "name": "Bleu de Chanel",
+                "price": 165.0,
+                "quantity": 1,
+                "image": "/img/bleu.jpg"
+            }
+        ],
+        "delivery_method": "standard",
+        "wrapping": true,
+        "gift_message": "Happy Birthday!"
+    }
+    ```
+
+### VI. My Orders
+- **Method**: `GET`
+- **URL**: `http://127.0.0.1:8000/api/orders`
+
+### VII. Get Order Details
+- **Method**: `GET`
+- **URL**: `http://127.0.0.1:8000/api/orders/{id}`
+
+---
+
+## 4. Admin Endpoints (Admin User)
+
+### I. List Deliveries
+- **Method**: `GET`
+- **URL**: `http://127.0.0.1:8000/api/admin/deliveries`
+
+### II. Create Delivery
+- **Method**: `POST`
+- **URL**: `http://127.0.0.1:8000/api/admin/deliveries`
+- **Body** (JSON):
+    ```json
+    {
+        "customer_name": "Alice Smith",
+        "address": "123 Main St",
+        "product": "Chanel No. 5",
+        "quantity": 1,
+        "status": "Pending"
+    }
+    ```
+
+### III. Update Delivery
+- **Method**: `PUT`
+- **URL**: `http://127.0.0.1:8000/api/admin/deliveries/{id}`
+- **Body** (JSON):
+    ```json
+    {
+        "status": "Delivered"
+    }
+    ```
+
+### IV. Delete Delivery
+- **Method**: `DELETE`
+- **URL**: `http://127.0.0.1:8000/api/admin/deliveries/{id}`
+
+### V. Create Product
+- **Method**: `POST`
+- **URL**: `http://127.0.0.1:8000/api/admin/products`
+- **Body** (JSON):
+    ```json
+    {
+        "name": "Chanel No. 5",
+        "description": "Timeless elegance",
+        "price": 325.0,
+        "category": "Perfume",
+        "image": "/img/no5.jpg"
+    }
+    ```

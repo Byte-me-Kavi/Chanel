@@ -87,12 +87,17 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        fetch(`/api/products/${productId}`)
-            .then(res => res.json())
-            .then(data => {
-                if(data.success) {
-                    const p = data.data;
-                    const related = data.related;
+        // Fetch Product Details
+        const productPromise = fetch(`/api/products/${productId}`).then(res => res.json());
+        // Fetch Reviews Separately
+        const reviewsPromise = fetch(`/api/products/${productId}/reviews`).then(res => res.json());
+
+        Promise.all([productPromise, reviewsPromise]) 
+            .then(([pData, rData]) => {
+                // 1. Render Product
+                if(pData.success) {
+                    const p = pData.data;
+                    const related = pData.related;
 
                     // Populate Data
                     document.getElementById('p-image').src = p.image;
@@ -155,14 +160,24 @@
                         document.getElementById('related-section').classList.remove('hidden');
                     }
                     
-                    // Reviews
+                    // Show content
+                    document.getElementById('loading').classList.add('hidden');
+                    const content = document.getElementById('product-content');
+                    content.classList.remove('hidden');
+                    content.classList.add('grid');
+                    document.getElementById('reviews-section').classList.remove('hidden');
+                }
+
+                // 2. Render Reviews (from separate API call)
+                if(rData.success) {
+                    const reviews = rData.data;
                     const reviewsContainer = document.getElementById('reviews-container');
                     const reviewCount = document.getElementById('review-count');
-                    
-                    if (p.reviews && p.reviews.length > 0) {
-                         reviewCount.innerText = `(${p.reviews.length})`;
-                         reviewsContainer.innerHTML = ''; // Clear loading/placeholder
-                         p.reviews.forEach(r => {
+
+                    if (reviews && reviews.length > 0) {
+                         reviewCount.innerText = `(${reviews.length})`;
+                         reviewsContainer.innerHTML = ''; 
+                         reviews.forEach(r => {
                             let stars = '';
                             for(let i=0; i<5; i++) {
                                 stars += `<svg class="h-4 w-4 ${i < r.rating ? 'text-amber-500' : 'text-gray-300'}" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>`;
@@ -185,13 +200,6 @@
                         reviewCount.innerText = '(0)';
                         reviewsContainer.innerHTML = '<p class="text-gray-500">Be the first to review this product.</p>';
                     }
-
-                    // Show content
-                    document.getElementById('loading').classList.add('hidden');
-                    const content = document.getElementById('product-content');
-                    content.classList.remove('hidden');
-                    content.classList.add('grid');
-                    document.getElementById('reviews-section').classList.remove('hidden');
                 }
             })
             .catch(err => {

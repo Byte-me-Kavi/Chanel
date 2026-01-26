@@ -48,6 +48,22 @@ Route::post('/products/{id}/reviews', function (Request $request, $id) {
     return response()->json(['success' => true, 'data' => $review], 201);
 });
 
+Route::get('/products/{id}/reviews', function ($id) {
+    // 1. Find product
+    $product = Product::find($id);
+    if (!$product) {
+        return response()->json(['message' => 'Product not found'], 404);
+    }
+
+    // 2. Get reviews
+    $reviews = $product->reviews; 
+
+    return response()->json([
+        'success' => true,
+        'data' => $reviews
+    ]);
+});
+
 // Route::get('/products/exclusives') removed as it is identical to /products
 
 Route::get('/products/{id}', function ($id) {
